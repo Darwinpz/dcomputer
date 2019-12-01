@@ -1,3 +1,5 @@
+{{#if (tipo_usuario user.tipo)}}
+
 <div class="card mb-3">
 
   <div class="row">
@@ -16,23 +18,13 @@
 
       <div class="d-flex justify-content-end m-2 ">
 
-        {{#if (tipo_usuario user.tipo)}}
-
-          <button class="btn btn-success ml-2" id="btn-editar" data-id="{{producto.uniqueId}}">
-              Guardar Producto 
-          </button>
-
-          <button class="btn btn-danger ml-2 " id="btn-eliminar" data-id="{{producto.uniqueId}}">
-              Cancelar 
-          </button>
-
-        {{/if}}
+          <a class="btn btn-danger ml-2 " href="/productos/{{producto.uniqueId}}" role="button">Cancelar</a>
 
       </div>
 
       <div class="card-body">
 
-        <form action="" method="POST">
+        <form action="/productos/{{producto.uniqueId}}/editar" method="POST">
 
             <div class="form-group">
                <p class="card-text mb-1"><strong>Nombre: </strong></p>
@@ -62,7 +54,13 @@
                     <input type="number" name="precio" value="{{producto.precio}}" class="form-control" placeholder="Precio del producto" required>
             </div>
 
+            <div class="form-group">
 
+              <button class="btn btn-success ml-2 btn-block" id="btn-actualizar" data-id="{{producto.uniqueId}}">
+                Actualizar 
+              </button>
+
+            </div>
         </form>
 
       </div>
@@ -70,3 +68,5 @@
     </div>
   </div>
 </div>
+
+{{/if}}

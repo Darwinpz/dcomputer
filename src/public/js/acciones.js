@@ -40,13 +40,13 @@ $('#btn-eliminar').click(function(e){
 
 
 
-$('.btn-danger').click(function(e){
+$('.btn-eliminar-item').click(function(e){
 
     e.preventDefault();
 
     let $this = $(this);
     
-    const response = confirm('Estas seguro de eliminar este producto?');
+    const response = confirm('Estas seguro de remover este producto?');
 
     if(response){
 

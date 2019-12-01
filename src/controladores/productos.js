@@ -52,7 +52,7 @@ ctrl.crear = (req,res)=>{
                 
                 });
 
-                const imageSaved = await newProducto.save();
+                await newProducto.save();
 
                 req.flash('success_msg','Producto Guardado');
          
@@ -117,7 +117,7 @@ ctrl.editar_producto_index = async(req,res)=>{
         res.render('productos/editar.hbs',{producto:producto});
     
     }else{
-        res.redirect('/');
+        res.redirect('/productos');
     }
 
 };
@@ -125,10 +125,31 @@ ctrl.editar_producto_index = async(req,res)=>{
 
 ctrl.editar_producto = async(req,res)=>{
 
-    console.log(req);
+    const producto = await Producto.findOne({filename: {$regex: req.params.producto_id}});
 
-    //const producto = await Producto.findOne({filename:{$regex: req.params.producto_id}});
 
+    if(producto){
+        
+        producto.nombre = req.body.nombre_prod;
+        producto.categoria = req.body.categoria_prod;
+        producto.descripcion = req.body.descripcion_prod;
+        producto.stock = req.body.stock;
+        producto.precio = req.body.precio;
+
+        await producto.save();
+
+        console.log(producto);
+
+        req.flash('success_msg',producto.nombre+' actualizado');
+        
+    }else{
+
+        req.flash('error_msg','Error al actualizar el producto: '+producto.nombre);
+
+    }
+
+    res.redirect('/productos/'+req.params.producto_id);
+  
 
 };
 
