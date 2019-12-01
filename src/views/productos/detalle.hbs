@@ -1,0 +1,63 @@
+<div class="card mb-3">
+
+  <div class="row">
+
+    <div class="col-md-6 ">
+
+      <div class="container">
+
+        <img src="/upload/{{producto.filename}}" class="img-fluid" alt="...">
+
+      </div>
+    </div>
+
+    <div class="col-md-6">
+
+
+      <div class="d-flex justify-content-end m-2 ">
+
+        {{#if (tipo_usuario user.tipo)}}
+
+          <a class="btn btn-success ml-2" href="/productos/{{producto.uniqueId}}/editar" role="button">Editar producto</a>
+
+          <button class="btn btn-danger ml-2 " id="btn-eliminar" data-id="{{producto.uniqueId}}">
+              Eliminar Producto 
+          </button>
+
+        {{/if}}
+
+      </div>
+
+      <div class="card-body">
+
+        <h3 class="card-title text-black">{{producto.nombre}}</h3>
+        <p class="card-text text-break text-justify">{{producto.descripcion}}</p>
+        <p class="card-text"><strong>Categoria: </strong>{{producto.categoria}}</p>
+        <p class="card-text"><strong>Disponible: </strong>{{producto.stock}}</p>
+        <h1 class="card-text mb-3" style="color: green;">$ {{producto.precio}}</h1>
+
+        <p class="mb-2"><strong>Selecciona la cantidad:</strong></p>
+        <form action="/carrito/{{producto.uniqueId}}/agregar" method="POST">
+
+          <div class="form-group">
+
+            <input style="display: none;" name="email_user" value="{{user.email}}">
+
+            <input type="number" name="cantidad" min="1" max="{{producto.stock}}" class="form-control"
+              placeholder="cantidad" required>
+
+          </div>
+
+          <div class="form-group">
+            <button class="btn btn-primary btn-block">
+              Añadir al Carrito
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+{{#if (tipo_usuario user.tipo)}}
+
+<div class="card">
+
+    <div class="card-header d-flex justify-content-between align-items-center">
+
+        <h3 class="card-title text-black">
+            Productos 
+        </h3>
+        <button class="btn btn-info" id="btn-toggle-producto">
+            Subir un producto
+        </button>
+
+    </div>
+
+    <div class="card-body">
+        
+        <blockquote id="post-producto">
+        
+            <form action="/productos/crear" method="POST" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input type="file" name="image" class="custom-file-input" id="inputGroup"
+                                aria-describedby="inputGroupFileAddon" required>
+                            <label class="custom-file-label" for="inputGroupFile">Escoje una Imagen</label>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="nombre_prod" class="form-control" placeholder="Nombre del producto" required>
+
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="categoria_prod" class="form-control" placeholder="Categoria del producto" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="number" name="stock" class="form-control" placeholder="Cantidad del producto" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="number" name="precio" class="form-control" placeholder="Precio del producto" required>
+                </div>
+
+                <div class="form-group">
+                    <textarea name="descripcion_prod" class="form-control" rows="2" placeholder="Descripcion del producto"
+                        required></textarea>
+                </div>
+
+
+                <div class="form-group">
+                    <button class="btn btn-success">
+                        Guardar producto
+                    </button>
+                </div>
+
+            </form>
+        
+        </blockquote>
+
+    </div>
+
+</div>
+
+{{/if}}
+
+<div class="card mt-2">
+
+    <div class="card-header text-black">
+
+        <h3>Productos disponibles</h3>
+
+    </div>
+
+    <div class="card-body">
+        
+        <div class="row">
+
+            {{#each productos}}
+
+                <div class="col-md-3 mb-2" >
+                
+                    <div class="card" >
+                        <a href="/productos/{{uniqueId}}">
+                            <img src="/upload/{{filename}}" class="img-fluid card-img-top " alt="...">
+                        </a>
+                        <div class="card-body">
+                            <strong><p class="text-center mb-1">{{nombre}}</p></strong>
+                            <h5 class="text-center mb-2" style="color: green;">$ {{precio}}</h5>
+                            
+                            <a class="btn btn-primary btn-block" href="/productos/{{uniqueId}}" role="button">Ver producto</a>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            {{/each}}
+
+        </div>
+
+        
+    </div>
+
+
+</div>

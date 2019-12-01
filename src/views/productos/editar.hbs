@@ -1,0 +1,72 @@
+<div class="card mb-3">
+
+  <div class="row">
+
+    <div class="col-md-6 ">
+
+      <div class="container">
+
+        <img src="/upload/{{producto.filename}}" class="img-fluid" alt="...">
+
+      </div>
+    </div>
+
+    <div class="col-md-6">
+
+
+      <div class="d-flex justify-content-end m-2 ">
+
+        {{#if (tipo_usuario user.tipo)}}
+
+          <button class="btn btn-success ml-2" id="btn-editar" data-id="{{producto.uniqueId}}">
+              Guardar Producto 
+          </button>
+
+          <button class="btn btn-danger ml-2 " id="btn-eliminar" data-id="{{producto.uniqueId}}">
+              Cancelar 
+          </button>
+
+        {{/if}}
+
+      </div>
+
+      <div class="card-body">
+
+        <form action="" method="POST">
+
+            <div class="form-group">
+               <p class="card-text mb-1"><strong>Nombre: </strong></p>
+               <input type="text" name="nombre_prod" class="form-control"  value="{{producto.nombre}}" placeholder="Nombre del producto" required>
+
+            </div>
+
+            <div class="form-group">
+                <p class="card-text mb-1"><strong>Descripcion: </strong></p>
+                <textarea name="descripcion_prod" class="form-control" rows="2" placeholder="Descripcion del producto"
+                        required>{{producto.descripcion}}</textarea>
+            </div>
+
+            <div class="form-group">
+                <p class="card-text mb-1"><strong>Categoria: </strong></p>
+                <input type="text" value="{{producto.categoria}}" name="categoria_prod" class="form-control" placeholder="Categoria del producto" required>
+            </div>
+
+            
+            <div class="form-group">
+                <p class="card-text mb-1"><strong>Stock: </strong></p>
+                <input type="number" name="stock" value="{{producto.stock}}" class="form-control" placeholder="Cantidad del producto" required>
+            </div>
+
+            <div class="form-group">
+                    <p class="card-text mb-1"><strong>Precio: </strong></p>
+                    <input type="number" name="precio" value="{{producto.precio}}" class="form-control" placeholder="Precio del producto" required>
+            </div>
+
+
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+{{#each carrito}}
+
+  <div class="card mb-3">
+
+    <div class="row">
+      
+      <div class="col-md-3">
+        <div class="container">
+          <img src="/upload/{{filename}}" class="img-fluid" alt="...">
+        </div>
+      </div>
+
+      <div class="col-md-9">
+        
+        <div class="card-body">
+          
+          <div class="d-flex bd-highlight d-flex align-items-center">
+           
+            <div class="flex-grow-1 bd-highlight "><h5>{{nombre}}</h5></div>
+            
+            <div class="bd-highlight">
+              
+              <button class="btn btn-danger float-right" id="btn-eliminar-item" data-id="{{id}}">
+                  Remover
+              </button>
+
+            </div>
+          </div>
+
+          <div class="table-responsive mt-2">
+
+            <table class="table table-bordered table-md">
+              <thead>
+                <tr>
+                  <th scope="col">Precio</th>
+                  <th scope="col">Cantidad</th>
+                  <th scope="col">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>$ {{precio}}</td>
+                  <td>{{cantidad}}</td>
+                  <td>$ {{total}}</td>
+                </tr>
+              </tbody>
+            </table>
+          
+          </div>          
+          
+          <!--p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p-->
+
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+
+{{/each}}
+
+<div class="card mb-3 float-right">
+  
+  <div class="card-header border-dark"><h4>Total del carrito</h4></div>
+  <div class="card-body ">
+    <h3 class="card-text text-center">$ {{compra_total}}</h3>
+  </div>
+  
+  <div class="card-footer border-dark">
+
+    <form action="/carrito/comprar" method="POST">
+
+      <button class="btn btn-success btn-block" id="btn-comprar">
+        Finalizar Compra
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
