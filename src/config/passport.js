@@ -2,6 +2,8 @@ const passport = require('passport');
 
 const localStrategy= require('passport-local');
 
+const Historial = require('../models/historial');
+
 const User = require('../models/user');
 
 passport.use(new localStrategy({
@@ -19,7 +21,17 @@ passport.use(new localStrategy({
       const match =  await  user.matchPassword(password);
         
       if(match){
-          return done(null,user);
+
+            const newHistorial = new Historial({
+
+                usuario_id: user._id,
+                actividad: "Ingresó al sistema"
+        
+            });
+        
+            await newHistorial.save();
+
+            return done(null,user);
       
         }else{
       

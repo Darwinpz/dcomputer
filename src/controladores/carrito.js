@@ -1,10 +1,9 @@
 const ctrl = {};
 
-
 const Producto = require('../models/productos');
 const Carrito = require('../models/carrito');
 const Facturas = require('../models/facturas');
-
+const Historial = require('../models/historial');
 
 ctrl.index = async(req,res)=>{
 
@@ -76,6 +75,15 @@ ctrl.agregar = async(req,res)=>{
                 
                 await newCarrito.save();
 
+                const newHistorial = new Historial({
+
+                    usuario_id: req.user._id,
+                    actividad: "Agregó el producto "+producto.nombre+" al carrito"
+            
+                });
+            
+                await newHistorial.save();
+
                 req.flash('success_msg',producto.nombre+' añadido al carrito');
                    
             }
@@ -135,7 +143,15 @@ ctrl.comprar = async(req,res)=>{
     
     }
 
-    
+    const newHistorial = new Historial({
+
+        usuario_id: req.user._id,
+        actividad: "Realizó una compra, Fact: "+cod_fact
+
+    });
+
+    await newHistorial.save();
+
     req.flash('success_msg','Compra realizada exitosamente');
 
     res.redirect('/carrito');
@@ -148,7 +164,7 @@ ctrl.remover = async(req,res)=>{
     const carrito = await Carrito.findOne({_id: req.params.carrito_id});
 
     if(carrito){
-
+        
         await carrito.remove();
 
         req.flash('success_msg','Item removido');

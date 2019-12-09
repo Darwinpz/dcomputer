@@ -3,6 +3,7 @@ const fs = require('fs-extra');
 const path  = require('path');
 
 const Producto = require('../models/productos');
+const Historial = require('../models/historial');
 
 //HELPERS
 const {randonNumber} = require('../helpers/libs.js');
@@ -51,8 +52,16 @@ ctrl.crear = (req,res)=>{
                     filename: nombre_imagen,
                 
                 });
+                
+                const newHistorial = new Historial({
+
+                    usuario_id: req.user._id,
+                    actividad: "Agregó el producto "+req.body.nombre_prod
+
+                });
 
                 await newProducto.save();
+                await newHistorial.save();
 
                 req.flash('success_msg','Producto Guardado');
          
@@ -81,6 +90,14 @@ ctrl.ver_producto = async(req,res)=>{
 
     if(producto){
         
+        const newHistorial = new Historial({
+
+            usuario_id: req.user._id,
+            actividad: "Observó el producto: "+producto.nombre
+
+        });
+        await newHistorial.save();
+
         res.render('productos/detalle.hbs',{producto:producto});
     
     }else{
@@ -96,7 +113,17 @@ ctrl.eliminar_producto = async(req,res)=>{
     if(producto){
         
         await fs.unlink(path.resolve('./src/public/upload/'+producto.filename));
+        
+        const newHistorial = new Historial({
+
+            usuario_id: req.user._id,
+            actividad: "Eliminó el producto: "+producto.nombre
+
+        });
+
         await producto.remove();
+
+        await newHistorial.save();        
         
         req.flash('success_msg',producto.nombre+' eliminado');
         
@@ -136,9 +163,16 @@ ctrl.editar_producto = async(req,res)=>{
         producto.stock = req.body.stock;
         producto.precio = req.body.precio;
 
+        const newHistorial = new Historial({
+
+            usuario_id: req.user._id,
+            actividad: "Actualizó el producto: "+producto.nombre
+
+        });
+
         await producto.save();
 
-        console.log(producto);
+        await newHistorial.save();
 
         req.flash('success_msg',producto.nombre+' actualizado');
         

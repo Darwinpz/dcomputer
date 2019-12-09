@@ -3,6 +3,7 @@
     <div class="container">
 
         <a class="navbar-brand" href="/">D-computer: {{user.tipo}}</a>
+        <p id="user_id" style="display: none;">{{user._id}}</p>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -12,6 +13,10 @@
 
                 {{#if user}}
 
+                    <li class="nav-item">
+                        <a class="nav-link" href="/historial">Historial</a>
+                    </li>
+                                    
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{user.nombre}}

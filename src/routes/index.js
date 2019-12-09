@@ -7,6 +7,7 @@ const productos = require('../controladores/productos');
 const usuarios = require('../controladores/usuarios');
 const carrito = require('../controladores/carrito');
 const facturas = require('../controladores/facturas');
+const historial = require('../controladores/historial');
 
 const {isAuthenticated} = require('../helpers/auth');
 
@@ -48,6 +49,11 @@ module.exports =(app)=>{
     //RUTAS DE FACTURA
 
     router.get('/facturas',isAuthenticated,facturas.index);
+
+    //HISTORIAL
+
+    router.get('/historial',isAuthenticated,historial.index);
+    router.get('/historial/:usuario_id',isAuthenticated,historial.historial);
 
     app.use(router);
 }

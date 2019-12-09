@@ -8,6 +8,11 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const multer = require('multer');
 const errorHandler = require('error-handler');
+const SocketIO = require('socket.io');
+
+//MODELOS
+const Historial = require('./models/historial');
+
 
 //inicializar
 const app = express();
@@ -78,7 +83,33 @@ const server = app.listen(app.get('port'),()=>{
 
 })
 
+
 //errohandlers
 if ('development' === app.get('env')){
     app.use(errorHandler);
 }
+
+//SOCKETS
+
+const io = SocketIO.listen(server);
+
+io.on('connection',(socket)=>{
+
+    console.log("nueva conexion: ",socket.handshake.address);
+
+    socket.on('historial',async(usuario_id)=>{
+
+        const historial = await Historial.find({usuario_id: usuario_id});
+
+        io.sockets.emit('historial',{"historial": historial,"usuario":usuario_id});
+
+    });
+
+    socket.on('disconnect', ()=>{
+    
+        console.log("desconectado");
+
+    });
+
+});
+

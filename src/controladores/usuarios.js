@@ -1,7 +1,6 @@
 const User  = require('../models/user');
 const passport = require('passport');
-
-
+const Historial = require('../models/historial');
 const ctrl = {};
 
 
@@ -17,7 +16,7 @@ ctrl.autenticarse =  passport.authenticate('local',{
         successRedirect: '/productos',
         failureRedirect: '/users/signin',
         failureFlash: true
-
+        
 });
 
 
@@ -69,6 +68,15 @@ ctrl.guardar_usuario = async (req,res)=>{
 
         await newUser.save();
 
+        const newHistorial = new Historial({
+
+            usuario_id: newUser._id,
+            actividad: "Se registró"
+    
+        });
+    
+        await newHistorial.save();
+        
         req.flash('success_msg','Usuario registrado');
             
         res.redirect('/users/signin');
@@ -78,7 +86,16 @@ ctrl.guardar_usuario = async (req,res)=>{
 }
 
 
-ctrl.cerrar_sesion = (req,res)=>{
+ctrl.cerrar_sesion = async(req,res)=>{
+
+    const newHistorial = new Historial({
+
+        usuario_id: req.user._id,
+        actividad: "Cerró sesión "
+
+    });
+
+    await newHistorial.save();
 
     req.logout();
     res.redirect('/');
