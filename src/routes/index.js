@@ -6,6 +6,7 @@ const router = express.Router();
 const productos = require('../controladores/productos');
 const usuarios = require('../controladores/usuarios');
 const carrito = require('../controladores/carrito');
+const facturas = require('../controladores/facturas');
 
 const {isAuthenticated} = require('../helpers/auth');
 
@@ -43,6 +44,10 @@ module.exports =(app)=>{
     router.post('/carrito/:producto_id/agregar',carrito.agregar);
     router.delete('/carrito/:carrito_id',isAuthenticated,carrito.remover);
     router.post('/carrito/comprar',carrito.comprar);
+
+    //RUTAS DE FACTURA
+
+    router.get('/facturas',isAuthenticated,facturas.index);
 
     app.use(router);
 }

@@ -3,11 +3,13 @@ const ctrl = {};
 
 const Producto = require('../models/productos');
 const Carrito = require('../models/carrito');
+const Facturas = require('../models/facturas');
+
 
 ctrl.index = async(req,res)=>{
 
     const carrito = await Carrito.find({email_user:req.user.email});
-        
+   
     elementos = [];
 
     compra_total = 0;
@@ -97,15 +99,38 @@ ctrl.agregar = async(req,res)=>{
 ctrl.comprar = async(req,res)=>{
 
     const carrito = await Carrito.find({email_user:req.user.email});
+    
+    const factura = await Facturas.findOne({email_user:req.user.email}).sort({cod_fact:-1});
+
+    let cod_fact;
+
+    if(factura == null){
+
+        cod_fact = 1;
+    
+    }else{
         
+        cod_fact = factura.cod_fact+1;
+    }
+
     for (const productos of carrito){
 
         const producto = await Producto.findOne({_id:productos.producto_id});
 
         producto.stock = producto.stock - productos.cantidad;
 
-        await producto.save();
+        const newFactura = new Facturas({
 
+            cod_fact: cod_fact,
+            email_user: req.user.email,
+            producto_id:producto._id,
+            cantidad:productos.cantidad,
+            precio_venta:producto.precio,
+
+        });
+        
+        await producto.save();
+        await newFactura.save();
         await productos.remove();
     
     }
