@@ -35,8 +35,6 @@ $('#btn-eliminar').click(function (e) {
 
         });
 
-
-
     }
 
 });
@@ -118,26 +116,71 @@ $('.user').click(function (e) {
 
     let usuario_id = $this.data('id');
 
-    $('#historial').attr("data-id", usuario_id);
+    if(usuario_id == "general"){
+        
+        //$('#historial').attr("data-id", "general");
 
-    let usuario_email = $this.data('email');
+        usuario_id = "general";
 
-    document.getElementById('actividad').innerHTML = `<Strong>ACTIVIDAD: ${usuario_email}</Strong>`;
+        document.getElementById('actividad').innerHTML = `<Strong>ACTIVIDAD: General</Strong>`;
 
+    }else{
+
+        $('#historial').attr("data-id", usuario_id);
+
+        let usuario_email = $this.data('email');
+
+        document.getElementById('actividad').innerHTML = `<Strong>ACTIVIDAD: ${usuario_email}</Strong>`;
+
+    }
+    
     socket.emit('historial', usuario_id);
 
 });
 
-socket.emit('historial', usuario_id.innerText);
+
+if(usuario_id.innerText="general"){
+    
+    socket.emit('historial', "general");
+
+}else{
+
+    socket.emit('historial', usuario_id.innerText);
+}
 
 socket.on('historial', (data) => {
 
     var id = document.getElementById('historial');
 
-    if (id) {
+    if(data.usuario == "general"){
+        
+        let historial = document.getElementById('historial');
 
+        historial.innerHTML = "";
+
+        if (data.historial.length != 0) {
+
+            data.historial.forEach(datos => {
+
+                historial.innerHTML += (`<p class="card-text mb-1"><strong>${datos.email}: </strong>${datos.actividad}</p> 
+                
+                <p class="card-text" style="margin-top: -10px;"><small class="text-muted">- ${datos.timestamp}</small></p>
+
+                `);
+
+            }); 
+
+            historial.scrollTop = historial.scrollHeight;
+
+        } else {
+            historial.innerHTML = (`<p class="card-text mb-1"><strong>Accion: </strong>No existe historial</p> `);
+        }
+
+    }else if (id) {
+    
         if (id.dataset.id == data.usuario) {
 
+            
             let historial = document.getElementById('historial');
 
             historial.innerHTML = "";

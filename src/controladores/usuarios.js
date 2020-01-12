@@ -71,7 +71,7 @@ ctrl.guardar_usuario = async (req,res)=>{
         const newHistorial = new Historial({
 
             usuario_id: newUser._id,
-            actividad: "Se registró"
+            actividad: "Se registró satisfactoriamente"
     
         });
     
@@ -91,7 +91,7 @@ ctrl.cerrar_sesion = async(req,res)=>{
     const newHistorial = new Historial({
 
         usuario_id: req.user._id,
-        actividad: "Cerró sesión "
+        actividad: "Cerró sesión"
 
     });
 

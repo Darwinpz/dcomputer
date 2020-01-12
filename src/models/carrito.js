@@ -19,4 +19,6 @@ CarritoSchema.virtual('producto')
         return this._producto;
     });
 
-module.exports = mongoose.model('Carrito',CarritoSchema);
+const carrito = mongoose.model('Carrito',CarritoSchema);
+
+module.exports = carrito;

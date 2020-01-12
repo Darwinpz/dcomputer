@@ -25,7 +25,7 @@ passport.use(new localStrategy({
             const newHistorial = new Historial({
 
                 usuario_id: user._id,
-                actividad: "Ingresó al sistema"
+                actividad: "Ingresó al sistema satisfactoriamente"
         
             });
         

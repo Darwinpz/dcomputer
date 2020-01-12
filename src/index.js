@@ -12,7 +12,7 @@ const SocketIO = require('socket.io');
 
 //MODELOS
 const Historial = require('./models/historial');
-
+const Usuarios = require('./models/user');
 
 //inicializar
 const app = express();
@@ -99,17 +99,40 @@ io.on('connection',(socket)=>{
 
     socket.on('historial',async(usuario_id)=>{
 
-        const historial = await Historial.find({usuario_id: usuario_id});
-
-        io.sockets.emit('historial',{"historial": historial,"usuario":usuario_id});
-
-    });
-
-    socket.on('disconnect', ()=>{
+        if(usuario_id != "general" && usuario_id!=""){
     
-        console.log("desconectado");
+            const historial = await Historial.find({usuario_id: usuario_id});
 
+            io.sockets.emit('historial',{"historial": historial,"usuario":usuario_id});
+
+        }
+
+        if(usuario_id == "general"){
+
+            historial1 = [];
+
+            const historial = await Historial.find();
+
+            for (const historia of historial){
+            
+                const  usuario = await Usuarios.findOne({_id:historia.usuario_id});
+                
+                historial1.push({
+                    
+                    email: usuario.email,
+                    actividad: historia.actividad,
+                    timestamp: historia.timestamp
+
+                });
+                
+            }
+
+            io.sockets.emit('historial',{"historial": historial1,"usuario":"general"});
+
+        }
+        
     });
 
+    
 });
 
