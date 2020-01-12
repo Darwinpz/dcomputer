@@ -8,27 +8,32 @@
 
                 <h4>Iniciar sesión</h4>
             </div>
-            
+
             <img src="/imagenes/d-computer.ico" class="rounded-circle mx-auto d-block m-2 logo" alt="logo">
-            
+
             <h3>D-computer</h3>
-           
+
             <div class="card-body">
 
                 <form action="/users/signin" method="POST">
 
                     <div class="form-group">
-                        
+
                         <input type="email" class="form-control" name="email" placeholder="Email" autofocus>
 
                     </div>
                     <div class="form-group">
 
-                        <input type="password" class="form-control" name="password" placeholder="contraseña" >
+                        <input type="password" class="form-control" name="password" placeholder="contraseña">
 
                     </div>
 
+
                     <div class="form-group">
+
+                        <button type="button" id="btn_facial" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal">
+                            Reconocimiento Facial
+                        </button>
 
                         <button type="submit" class="btn btn-primary btn-block">Iniciar Sesion</button>
 
@@ -43,3 +48,42 @@
     </div>
 
 </div>
+
+
+<!---  MODAL  -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Reconocimiento Facial</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+                <style>
+                    
+                    .modal-body{
+                        margin: 0;
+                        padding: 0;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+
+                    canvas{
+                        position: absolute;
+                    }
+
+                </style>
+                <video id="video" width="450" height="500" autoplay muted></video>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/face-api.min.js"></script>
+<script src="/js/facial.js"></script>

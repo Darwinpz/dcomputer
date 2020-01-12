@@ -8,6 +8,7 @@ const UsuarioSchema = new Schema({
     email: {type:String, required:true},
     password: {type:String, required:true},
     tipo:{type:String, required:true},
+    imagen_perfil: {type: String},
     fecha: {type:Date, default: Date.now}
 
 });
